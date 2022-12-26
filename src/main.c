@@ -7,14 +7,19 @@
 
 #include "../include/my_radar.h"
 
-int my_radar(char **argv, list_pl *list_plane, list_to *list_tower)
+int check_argc(int argc, char **argv)
 {
-    int nb_lines = data_grab(argv, list_plane, list_tower);
-    return nb_lines;
-}
-
-int check_argc(int argc)
-{
+    if (argc == 2 && argv[1][0] == '-' && argv[1][1] == 'h') {
+        write(1, "Air traffic simulation panel\n\nUSAGE\n", 37);
+        write(1, "    ./my_radar [OPTIONS] path_to_script\n", 41);
+        write(1, "    path_to_script     The path to the script file.\n", 53);
+        write(1, "OPTIONS\n", 9);
+        write(1, "    -h print the usage and quit.\n", 34);
+        write(1, "USER INTERACTIONS\n", 19);
+        write(1, "    ‘L’ key enable/disable hitboxes and areas.\n", 52);
+        write(1, "    ‘S’ key enable/disable sprites.\n", 41);
+        return 1;
+    }
     if (argc > 2) {
         write(2, "This program only accept one argument", 38);
         return 84;
@@ -50,9 +55,12 @@ int main(int argc, char **argv)
 {
     list_pl *list_plane = malloc(sizeof(*list_plane));
     list_to *list_tower = malloc(sizeof(*list_tower));
-    if (check_argc(argc) == 84)
+    int c_argc = check_argc(argc, argv);
+    if (c_argc == 1)
+        return 0;
+    if (c_argc == 84)
         return 84;
-    if (my_radar(argv, list_plane, list_tower) == -1) {
+    if (data_grab(argv, list_plane, list_tower) == -1) {
         write(2, "Error with file opening", 24);
         return 84;
     }
