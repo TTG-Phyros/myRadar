@@ -34,10 +34,14 @@ void plane_orientation(plane *plane)
     if (opposite < 0)
         angle *= -1;
     plane->rotation = angle;
+    sfVector2f pos = sfSprite_getPosition(plane->pl_sp);
+    pos.x += (20 * (angle / 180));
+    pos.y += (20 * (angle / 180));
+    sfSprite_setPosition(plane->pl_sp, pos);
     sfSprite_setRotation(plane->pl_sp, angle);
 }
 
-void draw_planes(list_pl *plane_list, sfRenderWindow *window)
+void draw_planes(list_pl *plane_list, sfRenderWindow *window, list_to *l_to)
 {
     plane *f_plane = plane_list->first;
     while (f_plane) {
@@ -46,6 +50,7 @@ void draw_planes(list_pl *plane_list, sfRenderWindow *window)
             plane_orientation(f_plane);
         move_planes(f_plane);
         check_if_finished(f_plane);
+        check_collision(plane_list, l_to, window);
         if (f_plane->sprite_option == 1) {
             sfRenderWindow_drawSprite(window, f_plane->pl_sp, NULL);
         }

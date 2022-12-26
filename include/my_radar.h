@@ -80,7 +80,8 @@
 
     // plane_related.c
     void plane_orientation(plane *plane);
-    void draw_planes(list_pl *plane_list, sfRenderWindow *window);
+    void draw_planes(list_pl *plane_list, sfRenderWindow *window,
+                    list_to *l_to);
     list_pl *initialisation_plane(list_pl *list_plane);
     void insertion_plane(list_pl *list_plane, char *line);
 
@@ -113,5 +114,6 @@
     // moving_sprite.c
     void move_planes(plane *ac_plane);
     void check_if_finished(plane *ac_plane);
+    void check_collision(list_pl *pl_l, list_to *li_to, sfRenderWindow *window);
 
 #endif

@@ -15,10 +15,10 @@ SRC		=		./src/main.c					\
 				./src/my_strlen.c				\
 				./src/plane_related.c			\
 				./src/tower_related.c			\
-				./src/display.c					\
 				./src/graphic_part.c			\
 				./src/sprites_init.c			\
 				./src/moving_sprite.c			\
+				./src/collision.c				\
 
 OBJ		=		$(SRC:.c=.o)
 

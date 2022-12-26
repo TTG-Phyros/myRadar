@@ -90,7 +90,7 @@ void graphic_part(list_pl *plane_list, list_to *tower_list)
         sfRenderWindow_clear(window, sfBlack);
         sfRenderWindow_drawSprite(window, wall, NULL);
         draw_towers(tower_list, window);
-        draw_planes(plane_list, window);
+        draw_planes(plane_list, window, tower_list);
         sfRenderWindow_display(window);
     }
 }
