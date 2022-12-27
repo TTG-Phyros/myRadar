@@ -73,7 +73,7 @@ void coords_change(plane *ac_pl)
     sfSprite_setPosition(ac_pl->pl_sp, pos);
 }
 
-void move_planes(plane *ac_pl)
+void move_planes(plane *ac_pl, float sec)
 {
     if (!ac_pl->ratio && ac_pl->rotation < 370) {
         ac_pl->ratio = percentage_calc(ac_pl);
@@ -82,7 +82,7 @@ void move_planes(plane *ac_pl)
         ac_pl->already_moved = malloc(3 * sizeof(float));
         ac_pl->already_moved[0] = ac_pl->ratio[0];
         ac_pl->already_moved[1] = ac_pl->ratio[1];
-    } else if (ac_pl->rotation < 370) {
+    } else if (ac_pl->rotation < 370 && sec >= ac_pl->delay) {
         ac_pl->already_moved[0] += ac_pl->ratio[0];
         ac_pl->already_moved[1] += ac_pl->ratio[1];
         coords_change(ac_pl);

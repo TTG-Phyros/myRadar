@@ -40,6 +40,7 @@
         float *already_moved;
         sfSprite *pl_sp;
         sfRectangleShape *hitbox;
+        sfClock *d_clock;
         plane *next;
     };
 
@@ -94,6 +95,7 @@
     int my_strlen(char const *str);
     int my_intlen(int nb);
     int my_strcmp(char *str_o, char *str_t);
+    char *int_to_str(int nb);
 
     // display.c
     void display_plane(list_pl *list_plane);
@@ -112,8 +114,12 @@
     sfSprite *wallpaper_init(void);
 
     // moving_sprite.c
-    void move_planes(plane *ac_plane);
+    void move_planes(plane *ac_plane, float sec);
     void check_if_finished(plane *ac_plane);
     void check_collision(list_pl *pl_l, list_to *li_to, sfRenderWindow *window);
+
+    //text.c
+    sfText *set_text(float secs);
+    sfText *change_text(sfText *text, float secs);
 
 #endif

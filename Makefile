@@ -19,6 +19,7 @@ SRC		=		./src/main.c					\
 				./src/sprites_init.c			\
 				./src/moving_sprite.c			\
 				./src/collision.c				\
+				./src/text.c					\
 
 OBJ		=		$(SRC:.c=.o)
 

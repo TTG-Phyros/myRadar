@@ -44,20 +44,25 @@ void plane_orientation(plane *plane)
 void draw_planes(list_pl *plane_list, sfRenderWindow *window, list_to *l_to)
 {
     plane *f_plane = plane_list->first;
-    while (f_plane) {
+    int finished = 0;
+    while (f_plane && f_plane->x_dep >= 0) {
+        if (f_plane->hitbox_option != -1) finished = 1;
         plane_hitbox(f_plane);
         if (f_plane->rotation == 370)
             plane_orientation(f_plane);
-        move_planes(f_plane);
+        sfTime clock = sfClock_getElapsedTime(f_plane->d_clock);
+        float sec = sfTime_asSeconds(clock);
+        move_planes(f_plane, sec);
         check_if_finished(f_plane);
         check_collision(plane_list, l_to, window);
-        if (f_plane->sprite_option == 1) {
+        if (f_plane->sprite_option == 1 && sec >= f_plane->delay)
             sfRenderWindow_drawSprite(window, f_plane->pl_sp, NULL);
-        }
-        if (f_plane->hitbox_option == 1)
+        if (f_plane->hitbox_option == 1 && sec >= f_plane->delay)
             sfRenderWindow_drawRectangleShape(window, f_plane->hitbox, NULL);
         f_plane = f_plane->next;
     }
+    if (finished == 0)
+        sfRenderWindow_close(window);
 }
 
 list_pl *initialisation_plane(list_pl *list_plane)
@@ -76,6 +81,7 @@ list_pl *initialisation_plane(list_pl *list_plane)
     planes->y_fin = -1;
     planes->speed = -1;
     planes->delay = -1;
+    planes->d_clock = NULL;
     planes->next = NULL;
     list_plane->first = planes;
     return list_plane;
@@ -87,6 +93,7 @@ void insertion_plane(list_pl *list_plane, char *line)
     int *data = get_data_int(line);
     new->pl_sp = NULL;
     new->hitbox = sfRectangleShape_create();
+    new->d_clock = sfClock_create();
     new->hitbox_option = 0;
     new->sprite_option = 1;
     new->rotation = 370;

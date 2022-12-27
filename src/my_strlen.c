@@ -33,3 +33,17 @@ int my_strcmp(char *str_o, char *str_t)
         return 0;
     return 1;
 }
+
+char *int_to_str(int nb)
+{
+    int len = my_intlen(nb);
+    char *str = malloc((len + 1) * sizeof(char));
+    int i = len - 1;
+    while (nb > 0) {
+        str[i] = (nb % 10) + '0';
+        i--;
+        nb /= 10;
+    }
+    str[len] = '\0';
+    return str;
+}

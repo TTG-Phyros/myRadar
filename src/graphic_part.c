@@ -84,11 +84,17 @@ void graphic_part(list_pl *plane_list, list_to *tower_list)
     sfEvent event;
     plane_sprites_init(plane_list);
     tower_sprites_init(tower_list);
+    sfClock * clock = sfClock_create();
+    sfText *timer = set_text(0);
     while (sfRenderWindow_isOpen(window)) {
         while (sfRenderWindow_pollEvent(window, &event))
             close_event(event, window, plane_list, tower_list);
+        sfTime time_elapsed = sfClock_getElapsedTime(clock);
+        float secs = sfTime_asSeconds(time_elapsed);
+        change_text(timer, secs);
         sfRenderWindow_clear(window, sfBlack);
         sfRenderWindow_drawSprite(window, wall, NULL);
+        sfRenderWindow_drawText(window, timer, NULL);
         draw_towers(tower_list, window);
         draw_planes(plane_list, window, tower_list);
         sfRenderWindow_display(window);
