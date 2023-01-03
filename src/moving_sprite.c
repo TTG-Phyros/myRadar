@@ -77,8 +77,8 @@ void move_planes(plane *ac_pl, float sec)
 {
     if (!ac_pl->ratio && ac_pl->rotation < 370) {
         ac_pl->ratio = percentage_calc(ac_pl);
-        ac_pl->ratio[0] = (ac_pl->speed * (ac_pl->ratio[0] / 100)) / 10;
-        ac_pl->ratio[1] = (ac_pl->speed * (ac_pl->ratio[1] / 100)) / 10;
+        ac_pl->ratio[0] = (ac_pl->speed * (ac_pl->ratio[0] / 1000)) / 10;
+        ac_pl->ratio[1] = (ac_pl->speed * (ac_pl->ratio[1] / 1000)) / 10;
         ac_pl->already_moved = malloc(3 * sizeof(float));
         ac_pl->already_moved[0] = ac_pl->ratio[0];
         ac_pl->already_moved[1] = ac_pl->ratio[1];

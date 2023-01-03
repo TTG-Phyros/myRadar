@@ -64,6 +64,9 @@
     typedef struct list_to list_to;
     struct list_to {
         tower *first;
+        sfText *base_text;
+        sfText *first_of;
+        sfText *sec_of;
     };
 
     // TODO Functions
@@ -120,6 +123,8 @@
 
     //text.c
     sfText *set_text(float secs);
-    sfText *change_text(sfText *text, float secs);
+    void change_text(sfRenderWindow *window, sfText *timer, float secs);
+    sfText *text_set(int x, int y, int scal, sfColor color);
+    int *key_display(sfRenderWindow *window, list_to *tower_list, int *value);
 
 #endif

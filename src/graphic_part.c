@@ -80,8 +80,9 @@ sfRenderWindow *window_init(void)
 void graphic_part(list_pl *plane_list, list_to *tower_list)
 {
     sfRenderWindow *window = window_init();
-    sfSprite *wall = wallpaper_init();
-    sfEvent event;
+    int *values = malloc(2 * sizeof(int));
+    float secs;
+    sfSprite *wall = wallpaper_init(); sfEvent event;
     plane_sprites_init(plane_list);
     tower_sprites_init(tower_list);
     sfClock * clock = sfClock_create();
@@ -90,13 +91,12 @@ void graphic_part(list_pl *plane_list, list_to *tower_list)
         while (sfRenderWindow_pollEvent(window, &event))
             close_event(event, window, plane_list, tower_list);
         sfTime time_elapsed = sfClock_getElapsedTime(clock);
-        float secs = sfTime_asSeconds(time_elapsed);
-        change_text(timer, secs);
+        secs = sfTime_asSeconds(time_elapsed);
         sfRenderWindow_clear(window, sfBlack);
         sfRenderWindow_drawSprite(window, wall, NULL);
-        sfRenderWindow_drawText(window, timer, NULL);
-        draw_towers(tower_list, window);
+        change_text(window, timer, secs);
         draw_planes(plane_list, window, tower_list);
+        values = key_display(window, tower_list, values);
         sfRenderWindow_display(window);
     }
 }

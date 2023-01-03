@@ -55,6 +55,10 @@ int main(int argc, char **argv)
 {
     list_pl *list_plane = malloc(sizeof(*list_plane));
     list_to *list_tower = malloc(sizeof(*list_tower));
+    list_tower->base_text = text_set(20, 20, 2, sfWhite);
+    sfText_setString(list_tower->base_text, "Hitbox ('L') :\nSprite ('S') :");
+    list_tower->first_of = text_set(440, 20, 2, sfWhite);
+    list_tower->sec_of = text_set(440, 75, 2, sfWhite);
     int c_argc = check_argc(argc, argv);
     if (c_argc == 1)
         return 0;
