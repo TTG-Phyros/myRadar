@@ -35,8 +35,8 @@ void plane_orientation(plane *plane)
         angle *= -1;
     plane->rotation = angle;
     sfVector2f pos = sfSprite_getPosition(plane->pl_sp);
-    pos.x += (20 * (angle / 180));
-    pos.y += (20 * (angle / 180));
+    pos.x -= sin(angle * (M_PI / 180)) * 10;
+    pos.y -= cos(angle * (M_PI / 180)) * 10;
     sfSprite_setPosition(plane->pl_sp, pos);
     sfSprite_setRotation(plane->pl_sp, angle);
 }

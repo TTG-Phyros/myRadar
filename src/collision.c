@@ -25,22 +25,36 @@ int check_tower(sfVector2f p_one, list_to *list_tower, int dim)
     return 0;
 }
 
-void check_collision_sec(sfVector2f p_one, plane *sec_plane, plane *f_plane)
+sfVector2f check_rota(plane *ac_plane)
 {
-    if (f_plane->sprite_option == -1 || sec_plane->sprite_option == -1)
-        return;
-    sfVector2f p_two = sfSprite_getPosition(sec_plane->pl_sp);
-    int changed = 0;
-    if (p_two.x >= p_one.x && p_two.x <= (p_one.x + 20)) {
-        if (p_two.y >= p_one.y && p_two.y <= (p_one.y + 20))
-            changed = 1;
-        if ((p_two.y + 20) >= p_one.y && (p_two.y + 20) <= (p_one.y + 20))
+    sfVector2f pos = sfSprite_getPosition(ac_plane->pl_sp);
+    if (ac_plane->rotation <= 0 && ac_plane->rotation >= -90)
+        pos.y -= sqrt(800);
+    if (ac_plane->rotation >= 90 && ac_plane->rotation <= 180)
+        pos.x -= sqrt(800);
+    if (ac_plane->rotation < -90 && ac_plane->rotation > -180) {
+        pos.x -= sqrt(800);
+        pos.y -= sqrt(800);
+    }
+    return pos;
+}
+
+void check_collision_sec(plane *sec_plane, plane *f_plane, int corner_o)
+{
+    if (f_plane->sprite_option == -1 || sec_plane->sprite_option == -1) return;
+    sfVector2f p_two = check_rota(sec_plane), p_one = check_rota(f_plane);
+    int changed = 0, la = sqrt(800), corner = 1;
+    if (p_two.y >= (1080 / 2)) corner += 2;
+    if (p_two.x >= (1920 / 2)) corner += 1;
+    if (corner_o != corner) return;
+    if (p_two.x >= p_one.x && p_two.x <= (p_one.x + la)) {
+        if (p_two.y >= p_one.y && p_two.y <= (p_one.y + la)) changed = 1;
+        if ((p_two.y + la) >= p_one.y && (p_two.y + la) <= (p_one.y + la))
             changed = 1;
     }
-    if ((p_two.x + 20) >= p_one.x && (p_two.x + 20) <= (p_one.x + 20)) {
-        if (p_two.y >= p_one.y && p_two.y <= (p_one.y + 20))
-            changed = 1;
-        if ((p_two.y + 20) >= p_one.y && (p_two.y + 20) <= (p_one.y + 20))
+    if ((p_two.x + la) >= p_one.x && (p_two.x + la) <= (p_one.x + la)) {
+        if (p_two.y >= p_one.y && p_two.y <= (p_one.y + la)) changed = 1;
+        if ((p_two.y + la) >= p_one.y && (p_two.y + la) <= (p_one.y + la))
             changed = 1;
     }
     if (changed == 1) {
@@ -52,17 +66,21 @@ void check_collision_sec(sfVector2f p_one, plane *sec_plane, plane *f_plane)
 void check_collision(list_pl *pl_l, list_to *li_to, sfRenderWindow *window)
 {
     plane *first_plane = pl_l->first;
-    int finished = 0;
+    int finished = 0, corner = 1;
     sfVector2u dim = sfRenderWindow_getSize(window);
     if (dim.x < dim.y)
         dim.x = dim.y;
     while (first_plane) {
-        finished = 0;
+        finished = 0, corner = 1;
         sfVector2f pos_one = sfSprite_getPosition(first_plane->pl_sp);
+        if (pos_one.y > (1080 / 2))
+            corner += 2;
+        if (pos_one.x >= (1920 / 2))
+            corner += 1;
         plane *second_plane = first_plane->next;
         finished = check_tower(pos_one, li_to, dim.x);
         while (second_plane && finished == 0) {
-            check_collision_sec(pos_one, second_plane, first_plane);
+            check_collision_sec(second_plane, first_plane, corner);
             second_plane = second_plane->next;
         }
         first_plane = first_plane->next;

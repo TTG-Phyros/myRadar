@@ -33,8 +33,8 @@ float *percentage_calc(plane *planes)
 {
     float *percents = malloc(3 * sizeof(float));
     if (planes->rotation > 0 && planes->rotation < 90) {
-        percents[0] = (planes->rotation * 100) / 90;
-        percents[1] = 100 - percents[0];
+        percents[1] = (planes->rotation * 100) / 90;
+        percents[0] = 100 - percents[1];
     }
     if (planes->rotation <= 0 && planes->rotation >= -90) {
         percents[1] = (planes->rotation * 100) / 90;

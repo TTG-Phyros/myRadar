@@ -69,6 +69,14 @@
         sfText *sec_of;
     };
 
+    typedef struct division division;
+    struct division {
+        sfRectangleShape *top_left;
+        sfRectangleShape *top_right;
+        sfRectangleShape *bottom_left;
+        sfRectangleShape *bottom_right;
+    };
+
     // TODO Functions
 
     // data_grab.c
@@ -126,5 +134,7 @@
     void change_text(sfRenderWindow *window, sfText *timer, float secs);
     sfText *text_set(int x, int y, int scal, sfColor color);
     int *key_display(sfRenderWindow *window, list_to *tower_list, int *value);
+
+    void draw_rect(sfRenderWindow *window);
 
 #endif
