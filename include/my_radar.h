@@ -108,6 +108,7 @@
     int my_intlen(int nb);
     int my_strcmp(char *str_o, char *str_t);
     char *int_to_str(int nb);
+    void h_flag(void);
 
     // display.c
     void display_plane(list_pl *list_plane);

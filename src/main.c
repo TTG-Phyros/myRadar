@@ -12,12 +12,7 @@ int check_argc(int argc, char **av)
     if (argc == 2 && av[1][0] == '-' && av[1][1] == 'h' && av[1][2] == 'g')
         return graphic_h_flag();
     if (argc == 2 && av[1][0] == '-' && av[1][1] == 'h') {
-        write(1, "Air traffic simulation panel\n\nUSAGE\n    ./my_radar", 51);
-        write(1, " [OPTIONS] path_to_script\n    path_to_script     ", 50);
-        write(1, "The path to the script file.\nOPTIONS\n    -h ", 45);
-        write(1, "print the usage and quit.\nUSER INTERACTIONS\n", 45);
-        write(1, "    ‘L’ key enable/disable hitboxes and areas.\n", 52);
-        write(1, "    ‘S’ key enable/disable sprites.\n", 41);
+        h_flag();
         return 1;
     }
     if (argc > 2) {
