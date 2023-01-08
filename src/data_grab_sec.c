@@ -47,3 +47,16 @@ int *get_data_int(char *line)
     liste_nb[k] = buffer;
     return liste_nb;
 }
+
+int graphic_h_flag(void)
+{
+    struct stat *stats = malloc(sizeof(*stats));
+    stat("./content/graphic_h_flag.parchemin", stats);
+    int fd = open("./content/graphic_h_flag.parchemin", O_RDONLY);
+    if (fd == -1)
+        return 85;
+    char *str = malloc((stats->st_size + 1) * sizeof(char));
+    read(fd, str, stats->st_size);
+    write(1, str, stats->st_size);
+    return 1;
+}

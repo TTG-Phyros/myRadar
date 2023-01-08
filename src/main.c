@@ -7,15 +7,15 @@
 
 #include "../include/my_radar.h"
 
-int check_argc(int argc, char **argv)
+int check_argc(int argc, char **av)
 {
-    if (argc == 2 && argv[1][0] == '-' && argv[1][1] == 'h') {
-        write(1, "Air traffic simulation panel\n\nUSAGE\n", 37);
-        write(1, "    ./my_radar [OPTIONS] path_to_script\n", 41);
-        write(1, "    path_to_script     The path to the script file.\n", 53);
-        write(1, "OPTIONS\n", 9);
-        write(1, "    -h print the usage and quit.\n", 34);
-        write(1, "USER INTERACTIONS\n", 19);
+    if (argc == 2 && av[1][0] == '-' && av[1][1] == 'h' && av[1][2] == 'g')
+        return graphic_h_flag();
+    if (argc == 2 && av[1][0] == '-' && av[1][1] == 'h') {
+        write(1, "Air traffic simulation panel\n\nUSAGE\n    ./my_radar", 51);
+        write(1, " [OPTIONS] path_to_script\n    path_to_script     ", 50);
+        write(1, "The path to the script file.\nOPTIONS\n    -h ", 45);
+        write(1, "print the usage and quit.\nUSER INTERACTIONS\n", 45);
         write(1, "    ‘L’ key enable/disable hitboxes and areas.\n", 52);
         write(1, "    ‘S’ key enable/disable sprites.\n", 41);
         return 1;
@@ -67,7 +67,7 @@ int main(int argc, char **argv)
         return 0;
     if (c_argc == 84)
         return 84;
-    if (data_grab(argv, list_plane, list_tower) == -1) {
+    if (data_grab(argv, list_plane, list_tower) == -1 || c_argc == 85) {
         write(2, "Error with file opening", 24);
         return 84;
     }

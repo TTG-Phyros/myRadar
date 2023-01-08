@@ -89,11 +89,12 @@
     // data_grab_sec.c
     int my_int_array_len(int *array);
     int *get_data_int(char *line);
+    int graphic_h_flag(void);
 
     // plane_related.c
     void plane_orientation(plane *plane);
     void draw_planes(list_pl *plane_list, sfRenderWindow *window,
-                    list_to *l_to);
+                    list_to *l_to, float volume);
     list_pl *initialisation_plane(list_pl *list_plane);
     void insertion_plane(list_pl *list_plane, char *line);
 
@@ -113,7 +114,7 @@
     void display_tower(list_to *list_tower);
 
     // graphic_part.c
-    void close_event(sfEvent event, sfRenderWindow *window,
+    int close_event(sfEvent event, sfRenderWindow *window,
                     list_pl *planes, list_to *towers);
     sfRenderWindow *window_init(void);
     void graphic_part(list_pl *plane_list, list_to *tower_list);
@@ -123,18 +124,18 @@
     void plane_sprites_init(list_pl *list_plane);
     void tower_sprites_init(list_to *tower_list);
     sfSprite *wallpaper_init(void);
+    void music_play(char *filepath, float volume);
 
     // moving_sprite.c
     void move_planes(plane *ac_plane, float sec);
     void check_if_finished(plane *ac_plane);
-    void check_collision(list_pl *pl_l, list_to *li_to, sfRenderWindow *window);
+    void check_collision(list_pl *pl_l, list_to *li_to,
+                        sfRenderWindow *window, float volume);
 
     //text.c
     sfText *set_text(float secs);
     void change_text(sfRenderWindow *window, sfText *timer, float secs);
     sfText *text_set(int x, int y, int scal, sfColor color);
     int *key_display(sfRenderWindow *window, list_to *tower_list, int *value);
-
-    void draw_rect(sfRenderWindow *window);
 
 #endif

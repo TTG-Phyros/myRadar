@@ -39,31 +39,43 @@ sfVector2f check_rota(plane *ac_plane)
     return pos;
 }
 
-void check_collision_sec(plane *sec_plane, plane *f_plane, int corner_o)
+int plz_not_f4(sfVector2f p_two)
+{
+    int corner = 1;
+    if (p_two.y >= (1080 / 2))
+        corner += 2;
+    if (p_two.x >= (1920 / 2))
+        corner += 1;
+    return corner;
+}
+
+void check_collision_sec(plane *sec_plane, plane *f_plane,
+                        int corner_o, float volume)
 {
     if (f_plane->sprite_option == -1 || sec_plane->sprite_option == -1) return;
     sfVector2f p_two = check_rota(sec_plane), p_one = check_rota(f_plane);
-    int changed = 0, la = sqrt(800), corner = 1;
-    if (p_two.y >= (1080 / 2)) corner += 2;
-    if (p_two.x >= (1920 / 2)) corner += 1;
+    int chg = 0, la = sqrt(800), corner;
+    corner = plz_not_f4(p_two);
     if (corner_o != corner) return;
     if (p_two.x >= p_one.x && p_two.x <= (p_one.x + la)) {
-        if (p_two.y >= p_one.y && p_two.y <= (p_one.y + la)) changed = 1;
+        if (p_two.y >= p_one.y && p_two.y <= (p_one.y + la)) chg = 1;
         if ((p_two.y + la) >= p_one.y && (p_two.y + la) <= (p_one.y + la))
-            changed = 1;
+            chg = 1;
     }
     if ((p_two.x + la) >= p_one.x && (p_two.x + la) <= (p_one.x + la)) {
-        if (p_two.y >= p_one.y && p_two.y <= (p_one.y + la)) changed = 1;
+        if (p_two.y >= p_one.y && p_two.y <= (p_one.y + la)) chg = 1;
         if ((p_two.y + la) >= p_one.y && (p_two.y + la) <= (p_one.y + la))
-            changed = 1;
+            chg = 1;
     }
-    if (changed == 1) {
+    if (chg == 1) {
+        music_play("./content/sound/explosion.ogg", volume);
         sec_plane->hitbox_option = -1, sec_plane->sprite_option = -1;
         f_plane->hitbox_option = -1, f_plane->sprite_option = -1;
     }
 }
 
-void check_collision(list_pl *pl_l, list_to *li_to, sfRenderWindow *window)
+void check_collision(list_pl *pl_l, list_to *li_to,
+                    sfRenderWindow *window, float volume)
 {
     plane *first_plane = pl_l->first;
     int finished = 0, corner = 1;
@@ -80,7 +92,7 @@ void check_collision(list_pl *pl_l, list_to *li_to, sfRenderWindow *window)
         plane *second_plane = first_plane->next;
         finished = check_tower(pos_one, li_to, dim.x);
         while (second_plane && finished == 0) {
-            check_collision_sec(second_plane, first_plane, corner);
+            check_collision_sec(second_plane, first_plane, corner, volume);
             second_plane = second_plane->next;
         }
         first_plane = first_plane->next;

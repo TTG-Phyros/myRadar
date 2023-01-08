@@ -66,3 +66,10 @@ sfSprite *wallpaper_init(void)
     sfSprite_setTexture(wall, wall_texture, sfTrue);
     return wall;
 }
+
+void music_play(char *filepath, float volume)
+{
+    sfMusic *music = sfMusic_createFromFile(filepath);
+    sfMusic_setVolume(music, volume);
+    sfMusic_play(music);
+}
