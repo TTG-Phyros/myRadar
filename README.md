@@ -43,6 +43,7 @@ L'objectif principal est de simuler le trafic aérien de manière réaliste tout
 ## 🖼️ Captures d'écran
 
 ![MyRadar](https://github.com/TTG-Phyros/repositoriesPhotos/blob/main/MyRadar/My_Radar.png)
+![Menu aide](https://github.com/TTG-Phyros/repositoriesPhotos/blob/main/MyRadar/myRadar_Help.png)
 
 ## 🚀 Installation
 ### Prérequis
